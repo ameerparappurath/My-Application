@@ -30,6 +30,10 @@ import java.util.stream.Collectors;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
+/**
+ * Created by Ameer Parappurath
+ * offline metrics data class
+ */
 
 public class OfflineDisplayTemperatureActivity extends AppCompatActivity {
     private ActivityShowMetricsBinding binding;

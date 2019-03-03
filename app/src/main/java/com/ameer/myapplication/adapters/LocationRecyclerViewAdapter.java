@@ -74,6 +74,7 @@ public class LocationRecyclerViewAdapter extends RecyclerView.Adapter<LocationRe
     public void cardClicked(LocationDataModel locationDataModel) {
         ConnectionDetector _connectionDetector = new ConnectionDetector(context);
         Intent intent;
+        // will check internet and will decide which class to call
         if (_connectionDetector.isConnectingToInternet()) {
             intent = new Intent(context, DisplayTemperatureActivity.class);
         } else {

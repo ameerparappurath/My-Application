@@ -5,10 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
@@ -34,10 +31,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+/**
+ * Created by Ameer Parappurath
+ * this class will display the metrics. Here3 apis are called and results are combined.
+ */
 
 public class DisplayTemperatureActivity extends AppCompatActivity {
     List<WeatherDatumUpdated> weatherDatumList;
-    List<WeatherDatumUpdated> weatherDatumListForSelectedYear;
     MetricsRecyclerViewAdapter metricsRecyclerViewAdapter;
     Activity mContext;
     int whichAPICalled = 0;
@@ -51,7 +51,6 @@ public class DisplayTemperatureActivity extends AppCompatActivity {
         mContext = DisplayTemperatureActivity.this;
         weatherDatumList = new ArrayList<>();
         yearArrayListForTIL = new ArrayList<>();
-        weatherDatumListForSelectedYear = new ArrayList<>();
         locationName = getIntent().getStringExtra("locationName");
         setTitle(locationName + " -(Metric Data)");
 
@@ -61,7 +60,8 @@ public class DisplayTemperatureActivity extends AppCompatActivity {
         binding.rvShowMetrics.setLayoutManager(new GridLayoutManager(mContext, 2));
         populateData();
     }
-
+// here apis are called using RXJava and retrofitt.
+// merge function is used
     private void populateData() {
 
 
@@ -94,7 +94,7 @@ public class DisplayTemperatureActivity extends AppCompatActivity {
                 .subscribe(this::handleResults, this::handleError);
 
     }
-
+// results from each API
     private void handleResults(List<WeatherDatum> weatherDatumListIndiv) {
 
 
@@ -102,19 +102,23 @@ public class DisplayTemperatureActivity extends AppCompatActivity {
 
             for (int i = 0; i < weatherDatumListIndiv.size(); i++) {
                 if (whichAPICalled == 0) {
+                    // for the first API all the values are added to arraylist
+                    // month name added from number using getMonthValueFromString method
                     yearArrayListForTIL.add(weatherDatumListIndiv.get(i).getYear());
                     weatherDatumList.add(new WeatherDatumUpdated(weatherDatumListIndiv.get(i).getYear(),weatherDatumListIndiv.get(i).getMonth(),
                             getMonthValueFromString(weatherDatumListIndiv.get(i).getMonth()),
                             weatherDatumListIndiv.get(i).getValue(), 0.0, 0.0));
 
                 } else if (whichAPICalled == 1) {
+                    // tmin updating after 2nd api call
                     weatherDatumList.get(i).settMin(weatherDatumListIndiv.get(i).getValue());
                 } else if (whichAPICalled == 2) {
-                    // saveArrayList();
+                    // RainFall updating after 2nd api call
                     weatherDatumList.get(i).setRainFall(weatherDatumListIndiv.get(i).getValue());
                 }
             }
             if (whichAPICalled == 2) {
+                // sorting array to descending. with year and month
                 Collections.sort(weatherDatumList, new Comparator<WeatherDatumUpdated>() {
                     @Override
                     public int compare(WeatherDatumUpdated lhs, WeatherDatumUpdated rhs) {
@@ -126,7 +130,7 @@ public class DisplayTemperatureActivity extends AppCompatActivity {
                         //    return rhs.year.compareTo(lhs.year);
                     }
                 });
-// remove all duplicates from year array
+// remove all duplicates from year array and sorting descending order
                 HashSet<Integer> hashSet = new HashSet<>(yearArrayListForTIL);
                 yearArrayListForTIL.clear();
                 yearArrayListForTIL.addAll(hashSet);
@@ -144,7 +148,7 @@ public class DisplayTemperatureActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
     }
-
+// auto complete textview setup
     private void setUpAutoComepleteTextView() {
         AutoCompleteTextView yearCompleteTextView = findViewById(R.id.et_filter_year);
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>
@@ -160,6 +164,7 @@ public class DisplayTemperatureActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int index = -1;
                 int value = 0;
+                // if one value cleared arraylist will reset.
                 if(s.length()<=3)
                 {
                 metricsRecyclerViewAdapter.setData(weatherDatumList);
@@ -212,12 +217,14 @@ public class DisplayTemperatureActivity extends AppCompatActivity {
 
 
     }
-
+// error response method
     private void handleError(Throwable t) {
         dialog.dismiss();
         Toast.makeText(this, "ERROR IN FETCHING API RESPONSE. Try again",
                 Toast.LENGTH_LONG).show();
     }
+
+    // hide keyboard on selection
     public void hideSoftKeyboard() {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -226,6 +233,7 @@ public class DisplayTemperatureActivity extends AppCompatActivity {
             }
         }
     }
+    // get month value from month id
     private String getMonthValueFromString(int monthValueInt) {
         String monthValue = null;
         switch (monthValueInt) {

@@ -12,6 +12,13 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+/**
+ * Created by Ameer Parappurath
+ * First class
+ * Locations list will be showing.
+ * If no internet then DisplayTemperatureActivity class will call.
+ * Otherwise OfflineDisplayTemperatureActivity class will call
+ */
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
