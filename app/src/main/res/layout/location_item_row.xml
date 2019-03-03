@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.ameer.myapplication.models.LocationDataModel" />
+
+        <variable
+            name="itemClickListener"
+            type="com.ameer.myapplication.interfaces.CustomClickListenerForLocationInterface" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.75"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/grey"
+        android:onClick="@{() -> itemClickListener.cardClicked(model)}"
+        app:cardUseCompatPadding="true">
+
+        <TextView
+            android:id="@+id/tvLocationName"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:text="@{model.locationName}"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/text_color"
+            android:textSize="20sp" />
+
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

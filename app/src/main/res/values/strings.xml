@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="select_your_location">Select your location</string>
+    <string name="filter_by_year">Filter by year:</string>
+</resources>

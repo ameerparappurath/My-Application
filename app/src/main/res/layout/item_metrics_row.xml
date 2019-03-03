@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="java.lang.String" />
+
+
+        <variable
+            name="model"
+            type="com.ameer.myapplication.models.weather_data.WeatherDatumUpdated" />
+
+    </data>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:alpha="0.75"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:text="@{model.month+`-`+model.year}"
+                android:textSize="16sp"
+                android:textColor="@color/text_color" />
+
+
+            <TextView
+                android:id="@+id/tvTMax"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTime"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:text="@{`Max temp: `  +model.tMax}"
+                android:textColor="@color/text_color" />
+            <TextView
+                android:id="@+id/tvTMin"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTMax"
+                android:layout_marginTop="5dp"
+                android:text="@{`Min temp: `  +model.tMin}"
+                android:textSize="16sp"
+                android:textColor="@color/text_color" />
+            <TextView
+                android:id="@+id/tvRainfall"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTMin"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:text="@{`Rainfall: `  +model.rainFall}"
+                android:textColor="@color/text_color" />
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>
